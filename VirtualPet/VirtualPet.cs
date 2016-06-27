@@ -34,18 +34,22 @@ namespace VirtualPet
 
         public void DisplayPetStatus()
         {
+            // display heading in blue
             Console.WriteLine();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\t\t\t    Your virtual pet");
             Console.ForegroundColor = ConsoleColor.White;
 
+            // print out animal user created
             Console.WriteLine();
             Console.WriteLine("\t\t{0}, a {1}, with {2} legs, weighing {3} pounds", Name, AnimalType, NumberOfLegs, Weight);
             Console.WriteLine();
 
+            // display the pet with the right amount of legs
             DisplayPet();
             
+            // display status of pet statistics
             Console.WriteLine("\t\t\t  * STATUS OF YOUR PET * ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine();
@@ -53,10 +57,94 @@ namespace VirtualPet
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine("\t\tHungry\tThirsty\tPee\tPoop\tTired\tBored");
-            Console.WriteLine("\t\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}", Hunger, Thirst, Waste1, Waste2, Tiredness, Boredom);
+            Console.WriteLine("\t\t______\t_______\t___\t____\t_____\t_____");
+
+            // if level is 80 or over
+            if (Hunger > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t\t{0}", Hunger);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t\t{0}", Hunger);
+                
+            }
+
+            if (Thirst > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t{0}", Thirst);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t{0}", Thirst);
+            }
+
+
+            if (Waste1 > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t{0}", Waste1);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t{0}", Waste1);
+            }
+
+
+            if (Waste2 > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t{0}", Waste2);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t{0}", Waste2);
+                   
+            }
+
+
+            if (Tiredness > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t{0}", Tiredness);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t{0}", Tiredness);
+            }
+
+
+            if (Boredom > 75)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\t{0}\n", Boredom);
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write("\t{0}\n", Boredom);
+            }
+
+            
+
+           //Console.WriteLine("\t\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}", Hunger, Thirst, Waste1, Waste2, Tiredness, Boredom);
 
         }
 
+        // display the menu of actions, run tick every time an action is chosen
         public void DisplayActionMenu()
         {
 
@@ -75,6 +163,7 @@ namespace VirtualPet
            
         }
 
+        // returns true/false depending on if 100 is reached
         public bool ReachedTheLimit()
         {
             bool reachedTheLimit = false;
@@ -112,6 +201,7 @@ namespace VirtualPet
             return reachedTheLimit;
         }
 
+        // adds to the instance variables
         public void Tick()
         {
             Hunger += 10;
@@ -123,22 +213,50 @@ namespace VirtualPet
 
         }
 
+        // displays the pet with the right amount of legs
         public void DisplayPet()
         {
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("                                   ^_____^");
-            Console.WriteLine("                                  ( o   o )");
-            Console.WriteLine("                                   \\ _=__/");
-            Console.WriteLine("                                 (         )");
+            Console.Write("                                   ^_____^     \n");
+            Console.Write("                                  ( o   o )    \n");
+            Console.Write("                                   \\__=__/    \n");
+
+            // get the size by doing an integer division, set minimum size to 6
+            int size = Weight / 10;
+            int maxSpace = 38;
+            if (size < 6)
+            {
+                size = 6;
+            }
+
+      
+            for (int i = 1;i <= (maxSpace-(size/2));i++)
+            {
+                             
+                    Console.Write(" ");
+             
+            }
+            
+
+            for (int i = 1;i <=size;i++)
+            {
+                if (i == 1)
+                {
+                    Console.Write("(");
+                }
+                else
+                {
+                    Console.Write("_");
+                }
+            }
+            Console.Write(")");
             if (Tail)
             {
-                Console.WriteLine("                                 (_________)=== ");
+                Console.Write("=== ");
             }
-            else
-            {
-                Console.WriteLine("                                 (_________)");
-            }
+            Console.WriteLine();
+            
             
             switch(NumberOfLegs)
             {
@@ -165,11 +283,12 @@ namespace VirtualPet
 
         }
 
+        // called from a thread, calls tick everytime an interval of time has past
         public void RunTick()
         {
             while (!ReachedTheLimit())
             {
-                
+                // check if the limit is reached every second but do it for an interval of time
                 int timeInterval = 20;
                 for (int i = 1; i <= timeInterval; i++)
                 {
@@ -181,6 +300,7 @@ namespace VirtualPet
                     
                 }
 
+                // if the limit has not been reached, call tick and update statistics
                 if (!ReachedTheLimit())
                 {
                     Tick();
@@ -188,17 +308,17 @@ namespace VirtualPet
                     DisplayPetStatus();
                     DisplayActionMenu();
                 }
+                // otherwise return
                 else
                 {
-                    Tiredness = 101;
-                    return;
+                    continue;
                 }
                 
             }
 
-            Console.Clear();
-            Console.WriteLine("Your pet is died  - press any key to end program.");
-            string answer = Console.ReadLine();
+           // Console.Clear();
+           // Console.WriteLine("Your pet is died  - press any key to end program.");
+           // string answer = Console.ReadLine();
  
 
         }

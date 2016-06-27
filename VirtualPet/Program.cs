@@ -25,7 +25,7 @@ namespace VirtualPet
 
             string answer;
 
-
+           
             Console.Clear();
             Console.WriteLine("Create Your Virtual Pet");
             Console.WriteLine();
@@ -46,16 +46,19 @@ namespace VirtualPet
                 numberOfLegs = 4;
             }
 
-            Console.Write("Weight of your pet : ");
+            Console.Write("Weight of your pet (limit 100 lbs): ");
             weight = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Does your pet have a tail : ");
+            Console.Write("Does your pet have a tail (yes or no) : ");
             answer = Console.ReadLine();
 
             if (answer.ToLower() == "yes")
             {
                 tail = true;
             }
+
+            Console.WriteLine("Please enter into full screen mode - press any key to continue");
+            Console.ReadKey();
 
 
 
