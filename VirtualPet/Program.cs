@@ -25,7 +25,6 @@ namespace VirtualPet
 
             string answer;
 
-           
             Console.Clear();
             Console.WriteLine("Create Your Virtual Pet");
             Console.WriteLine();
@@ -35,21 +34,13 @@ namespace VirtualPet
             Console.Write("What is your animal type : ");
             petType = Console.ReadLine();
 
-            Console.Write("Number of legs (1 - 4): ");
+            Console.Write("Number of legs : ");
             numberOfLegs = Convert.ToInt32(Console.ReadLine());
-            if (numberOfLegs < 1)
-            {
-                numberOfLegs = 1;
-            }
-            else if (numberOfLegs > 4)
-            {
-                numberOfLegs = 4;
-            }
 
-            Console.Write("Weight of your pet (limit 100 lbs): ");
+            Console.Write("Weight of your pet : ");
             weight = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Does your pet have a tail (yes or no) : ");
+            Console.Write("Does your pet have a tail : ");
             answer = Console.ReadLine();
 
             if (answer.ToLower() == "yes")
@@ -57,10 +48,19 @@ namespace VirtualPet
                 tail = true;
             }
 
-            Console.WriteLine("Please enter into full screen mode - press any key to continue");
-            Console.ReadKey();
+        /*    if (tail)
+            {
+                Console.WriteLine("Your pet, {0}, a {1}, weighing {2} pounds with {3} legs and a tail has been created.", petsName, petType, weight, numberOfLegs);
+            }
+            else
+            {
+                Console.WriteLine("Your pet, {0}, a {1}, weighing {2} pounds with {3} legs has been created.", petsName, petType, weight, numberOfLegs);
+            }
 
 
+            Console.WriteLine("Press any key to interact with your pet");
+            Console.ReadLine();
+            */
 
             Console.Clear();
             MyPet.Name = petsName;
@@ -70,7 +70,7 @@ namespace VirtualPet
             MyPet.Tail = tail;
 
             int menuOption = 0;
-
+            
             Thread thread = new Thread(MyPet.RunTick);
             thread.Start();
 
@@ -79,15 +79,11 @@ namespace VirtualPet
             {
                 // get pet status
                 Console.Clear();
-                MyPet.DisplayPetStatus();
+                MyPet.DisplayPetStatus();                
                 MyPet.DisplayActionMenu();
 
-
+             
                 answer = Console.ReadLine();
-                if (MyPet.ReachedTheLimit())
-                {
-                    break;
-                }
                 menuOption = Convert.ToInt32(answer);
 
                 switch (menuOption)
@@ -111,28 +107,23 @@ namespace VirtualPet
                         MyPet.PlayTime();
                         break;
                     case 7:
-                        Console.Write("You chose to return your pet - are you sure ? (yes or no)");
-                        answer = Console.ReadLine();
-                        if (answer.ToLower() == "yes")
-                        {
-                            Console.WriteLine("Your pet is being returned - Press any key to end program!");
-                            Console.ReadLine();
-                            MyPet.Tiredness = 101;
-                        }
+                        Console.WriteLine("Return pet");
+                        MyPet.Tiredness = 101;
                         break;
                     default:
                         Console.WriteLine("Choose a valid option");
                         break;
 
                 }
+               
 
             }
-            if (menuOption != 7)
-            {
-                Console.Clear();
-                Console.WriteLine("Your pet is died  - press any key to end program.");
-                answer = Console.ReadLine();
-            }
+
+
+           // Console.WriteLine("After while loop");
+
+
+
 
 
         }
