@@ -37,10 +37,10 @@ namespace VirtualPet
             Console.Write("Number of legs : ");
             numberOfLegs = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Weight of your pet : ");
+            Console.Write("Weight of your pet (limit 100 lbs): ");
             weight = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Does your pet have a tail : ");
+            Console.Write("Does your pet have a tail (yes or no) : ");
             answer = Console.ReadLine();
 
             if (answer.ToLower() == "yes")
@@ -48,19 +48,7 @@ namespace VirtualPet
                 tail = true;
             }
 
-        /*    if (tail)
-            {
-                Console.WriteLine("Your pet, {0}, a {1}, weighing {2} pounds with {3} legs and a tail has been created.", petsName, petType, weight, numberOfLegs);
-            }
-            else
-            {
-                Console.WriteLine("Your pet, {0}, a {1}, weighing {2} pounds with {3} legs has been created.", petsName, petType, weight, numberOfLegs);
-            }
 
-
-            Console.WriteLine("Press any key to interact with your pet");
-            Console.ReadLine();
-            */
 
             Console.Clear();
             MyPet.Name = petsName;
