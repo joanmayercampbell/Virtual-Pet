@@ -48,8 +48,11 @@ namespace VirtualPet
                 tail = true;
             }
 
+            // get user to chose full screen
+            Console.WriteLine("Open the full screen for better viewing - press any key to continue !");
+            Console.ReadLine();
 
-
+            // assign user input to the object's variable
             Console.Clear();
             MyPet.Name = petsName;
             MyPet.AnimalType = petType;
@@ -59,14 +62,17 @@ namespace VirtualPet
 
             int menuOption = 0;
             
+            // start a thread that will change the statistics every 20 seconds
             Thread thread = new Thread(MyPet.RunTick);
             thread.Start();
 
-
+            // display the status and menu until one of the stats is greater than 100 or option 7 - return pet is chosen
             while (!MyPet.ReachedTheLimit())
             {
                 // get pet status
                 Console.Clear();
+                MyPet.DisplayHeader();
+                MyPet.DisplayPet();
                 MyPet.DisplayPetStatus();                
                 MyPet.DisplayActionMenu();
 
@@ -95,7 +101,7 @@ namespace VirtualPet
                         MyPet.PlayTime();
                         break;
                     case 7:
-                        Console.WriteLine("Return pet");
+                        //Console.WriteLine("Return pet");
                         MyPet.Tiredness = 101;
                         break;
                     default:
@@ -103,6 +109,9 @@ namespace VirtualPet
                         break;
 
                 }
+
+                // run tick
+                MyPet.Tick();
                
 
             }

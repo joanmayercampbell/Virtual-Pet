@@ -32,14 +32,13 @@ namespace VirtualPet
             Boredom = 0;
         }
 
-        public void DisplayPetStatus()
+        public void DisplayHeader()
         {
-
             // display heading in blue
             Console.WriteLine();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\t\t\t    Your virtual pet");
+            Console.WriteLine("\t\t\t      Your virtual pet");
             Console.ForegroundColor = ConsoleColor.White;
 
             // print out animal user created
@@ -48,9 +47,16 @@ namespace VirtualPet
             Console.WriteLine("\t\t{0}, a {1}, with {2} legs, weighing {3} pounds", Name, AnimalType, NumberOfLegs, Weight);
             Console.WriteLine();
 
-            // display the pet with the right amount of legs
-            DisplayPet();
-            
+
+        }
+
+
+
+        public void DisplayPetStatus()
+        {
+
+           
+                       
             // display status of pet statistics
             Console.WriteLine("\t\t\t  * STATUS OF YOUR PET * ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -159,7 +165,7 @@ namespace VirtualPet
             Console.WriteLine("7 - Return Pet");
             Console.WriteLine("");
             Console.Write("Enter your option : ");
-            Tick();
+          
             
 
 
@@ -215,34 +221,42 @@ namespace VirtualPet
 
 
         }
-
         // displays the pet with the right amount of legs
         public void DisplayPet()
         {
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+
             Console.Write("                                   ^_____^     \n");
-            Console.Write("                                  ( o   o )    \n");
+            
+            Console.Write("                                  ( o   o )    \n");            
+
             Console.Write("                                   \\__=__/    \n");
 
-            // get the size by doing an integer division, set minimum size to 6
+            // get the size by doing an integer division, set minimum size to 6 maximum to 10
             int size = Weight / 10;
+
             int maxSpace = 38;
             if (size < 6)
             {
                 size = 6;
             }
-
-      
-            for (int i = 1;i <= (maxSpace-(size/2));i++)
+            if (size > 10)
             {
-                             
-                    Console.Write(" ");
-             
+                size = 10;
             }
-            
 
-            for (int i = 1;i <=size;i++)
+            // position the figure correctly for the size of the pet
+            for (int i = 1; i <= (maxSpace - (size / 2)); i++)
+            {
+
+                Console.Write(" ");
+
+            }
+
+            // print the body according to the size
+            for (int i = 1; i <= size; i++)
             {
                 if (i == 1)
                 {
@@ -259,33 +273,123 @@ namespace VirtualPet
                 Console.Write("=== ");
             }
             Console.WriteLine();
-            
-            
-            switch(NumberOfLegs)
+
+
+            // print the legs depending on user input
+            switch (NumberOfLegs)
             {
                 case 1:
-                    
+
                     Console.WriteLine("                                     _|");
                     break;
                 case 2:
-                    
+
                     Console.WriteLine("                                   _|  _|");
                     break;
                 case 3:
-                    
+
                     Console.WriteLine("                                   _|_|_| ");
                     break;
                 case 4:
-                    
-                    Console.WriteLine("                                 _|_| _|_|");
+
+                    Console.WriteLine("                                  _|_|_|_|");
                     break;
             }
 
             Console.WriteLine();
-            
-
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
+
+
+        // called from a thread, calls tick everytime an interval of time 
+
+        // displays the pet with the right amount of legs
+        public void Wink(bool open)
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write("                                   ^_____^     \n");
+            if (open)
+            {
+                Console.Write("                                  ( o   o )    \n");
+            }
+            else
+            {
+                Console.Write("                                  ( -   - )    \n");
+            }
+            
+            Console.Write("                                   \\__=__/    \n");
+
+            // get the size by doing an integer division, set minimum size to 6 maximum to 10
+            int size = Weight / 10;
+
+            int maxSpace = 38;
+            if (size < 6)
+            {
+                size = 6;
+            }
+            if (size > 10)
+            {
+                size = 10;
+            }
+
+            // position the figure correctly for the size of the pet
+            for (int i = 1; i <= (maxSpace - (size / 2)); i++)
+            {
+
+                Console.Write(" ");
+
+            }
+
+            // print the body according to the size
+            for (int i = 1; i <= size; i++)
+            {
+                if (i == 1)
+                {
+                    Console.Write("(");
+                }
+                else
+                {
+                    Console.Write("_");
+                }
+            }
+            Console.Write(")");
+            if (Tail)
+            {
+                Console.Write("=== ");
+            }
+            Console.WriteLine();
+
+
+            // print the legs depending on user input
+            switch (NumberOfLegs)
+            {
+                case 1:
+
+                    Console.WriteLine("                                     _|");
+                    break;
+                case 2:
+
+                    Console.WriteLine("                                   _|  _|");
+                    break;
+                case 3:
+
+                    Console.WriteLine("                                   _|_|_| ");
+                    break;
+                case 4:
+
+                    Console.WriteLine("                                  _|_|_|_|");
+                    break;
+            }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
 
         // called from a thread, calls tick everytime an interval of time has past
         public void RunTick()
@@ -294,6 +398,7 @@ namespace VirtualPet
             {
 
                 // check if the limit is reached every second but do it for an interval of time
+                bool wink = true;
                 int timeInterval = 20;
                 for (int i = 1; i <= timeInterval; i++)
                 {
@@ -301,6 +406,20 @@ namespace VirtualPet
                     if (ReachedTheLimit())
                     {
                         i = 21;
+                    }
+                    Console.Clear();
+                    DisplayHeader();
+                    Wink(wink);
+                    DisplayPetStatus();
+                    DisplayActionMenu();
+
+                    if(wink)
+                    {
+                        wink = false;
+                    }
+                    else
+                    {
+                        wink = true;
                     }
                     
                 }
@@ -310,6 +429,8 @@ namespace VirtualPet
                 {
                     Tick();
                     Console.Clear();
+                    DisplayHeader();
+                    Wink(wink);
                     DisplayPetStatus();
                     DisplayActionMenu();
                 }
