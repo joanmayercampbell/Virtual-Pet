@@ -80,6 +80,9 @@ namespace VirtualPet
                 answer = Console.ReadLine();
                 menuOption = Convert.ToInt32(answer);
 
+                // run tick
+                MyPet.Tick();
+
                 switch (menuOption)
                 {
                     case 1:
@@ -110,8 +113,7 @@ namespace VirtualPet
 
                 }
 
-                // run tick
-                MyPet.Tick();
+               
                
 
             }
